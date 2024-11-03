@@ -25,6 +25,10 @@ urlpatterns = [
     path('', views.index, name="index"),
 
     path('pendu/', views.pendu, name='pendu'),
-    path('pendu/reset/', views.pendu_reset, name='pendu_reset')
+    path('pendu/reset/', views.pendu_reset, name='pendu_reset'),
+
+    path('cemantix/', views.cemantix, name="cemantix"),
+    path('cemantix/reset/', views.cemantix_reset, name="cemantix_reset"),
+
 
 ]

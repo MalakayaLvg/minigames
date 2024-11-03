@@ -1,0 +1,26 @@
+{% extends 'website/index.html' %}
+{% block body %}
+    <a class="btn btn-warning" href="{% url "cemantix_reset" %}">reset</a>
+
+    <h1 class="text-success">Jeu du cemantix</h1>
+
+    <form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button class="btn btn-primary" type="submit">envoyer</button>
+    </form>
+
+    user word: {{ user_word }}
+
+    <h2>similarity : {{ similarity }} %</h2>
+
+    <p>{{ state }}</p>
+
+    <ul>
+    {% for info in user_list %}
+
+            <li>{{ info.user_word }} : {{ info.similarity }} %</li>
+
+    {% endfor %}
+    </ul>
+{% endblock %}

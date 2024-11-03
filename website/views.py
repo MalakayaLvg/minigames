@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.context_processors import request
 
-from website.forms import PenduForm
+import spacy
+from website.forms import PenduForm, CemantixForm
 
 
 # Create your views here.
@@ -80,4 +81,47 @@ def pendu_reset(request):
     request.session.pop("user_letters_guessed",None)
     request.session.pop("user_letters_try",None)
     return redirect("pendu")
+
+def cemantix_start(request):
+    request.session["user_list"] = []
+
+def cemantix(request):
+    llm = spacy.load("en_core_web_lg")
+    secret_word = "concrete"
+    token_secret_word = llm(secret_word)
+    user_list = request.session.get("user_list",[])
+
+    if request.method == "POST":
+        form = CemantixForm(request.POST)
+        if form.is_valid():
+            user_word = form.cleaned_data["word"]
+            token_user_word = llm(user_word)
+
+            if secret_word == user_word:
+                similarity = 1
+            else:
+                similarity =token_user_word.similarity(token_secret_word)
+
+            if similarity == 1:
+                state = "you won !"
+            else:
+                state = "try again !"
+
+
+            similarity = round(similarity,2)*100
+            word_info = {"user_word":user_word,"similarity":similarity}
+            user_list.append(word_info)
+            request.session["user_list"] = user_list
+
+            context = {"form": form, "user_word":user_word, "state":state, "similarity":similarity, "user_list":user_list}
+            return render(request, "cemantix/index.html", context)
+
+    form = CemantixForm
+    context = {"form":form}
+    return render(request, "cemantix/index.html",context)
+
+def cemantix_reset(request):
+
+    request.session.pop("user_list",None)
+    return redirect("cemantix")
 
