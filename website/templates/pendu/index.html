@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 {% block body %}
 
+    <a class="btn btn-warning" href="{% url "pendu_reset" %}">reset</a>
 <h2>jeu du pendu</h2>
     <h6>mot a deviner: {{ guess_word }}</h6>
     lettres :
@@ -19,17 +20,16 @@
     <div>
         {% if userLetter %}
             <h3>user letter : {{ userLetter }}</h3>
-            lettre deviné : {{ user_letter_guessed }}
+            lettre deviné : {{ user_letters_guessed }}
         {% endif %}
 
-        {% for letter_index in index %}
-                {{ letter_index }}
-        <{% endfor %}
+{#        {% for letter_index in index %}#}
+{#                {{ letter_index }}#}
+{#        <{% endfor %}#}
 
         {% if letter_state %}
             <h3 class="text-success">la lettre est dans le mot</h3>
             index :
-
         {% else %}
             <h3 class="text-danger">la lettre n'est pas dans le mot</h3>
         {% endif %}
