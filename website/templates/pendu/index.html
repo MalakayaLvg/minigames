@@ -1,0 +1,26 @@
+{% extends 'website/index.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+<h2>jeu du pendu</h2>
+    <h6>mot a deviner: {{ guess_word }}</h6>
+    lettres :
+    {% for letter in word_letters %}
+        {{ letter }},
+    {% endfor %}
+
+<form method="POST">
+<h3>Votre lettre</h3>
+{% csrf_token %}
+{{ form }}
+<button type="submit" class="btn btn-primary">envoyer</button>
+</form>
+
+    <div>
+        {% if userLetter %}
+            <h3>{{ userLetter }}</h3>
+        {% endif %}
+        <h1>{{ letter_state }}</h1>
+    </div>
+
+{% endblock %}
