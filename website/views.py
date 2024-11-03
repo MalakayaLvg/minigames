@@ -10,20 +10,37 @@ def index(request):
 
 def pendu(request):
     guess_word = "carambar"
+    guess_word_length = len(guess_word)
     word_letters = list(guess_word)
 
-    if request.method == 'POST':
-        form = PenduForm(request.POST)
-        if form.is_valid():
-            letter = form.cleaned_data["letter"]
-            if letter in word_letters:
-                letter_state = "cette lettre est dans le mot"
-            else:
-                letter_state = "cette lettre n'est pas dans le mot"
-            context = {"form":form, "userLetter":letter,"letter_state":letter_state, "guess_word":guess_word, "word_letters":word_letters}
-            return render(request, "pendu/index.html", context)
-    else:
-        form = PenduForm()
+    on_game = True
+    while on_game:
+        if request.method == 'POST':
+            game_started = True
+            form = PenduForm(request.POST)
+            if form.is_valid():
+                user_letter = form.cleaned_data["letter"]
+                letter_state = False
 
-    context = {"form": form}
-    return render(request,"pendu/index.html", context)
+                index = []
+
+                for i,letter in enumerate(word_letters):
+
+                    if user_letter == letter:
+                        letter_state = True
+                        index.append(i)
+                        on_game = False
+
+
+                    else:
+                        letter_state = False
+
+
+                context = {"form":form, "userLetter":user_letter,"letter_state":letter_state, "guess_word":guess_word, "word_letters":word_letters, "index":index}
+                return render(request, "pendu/index.html", context)
+        else:
+            form = PenduForm()
+
+        context = {"form": form}
+        return render(request,"pendu/index.html", context)
+    return render(request,"pendu/win.html")
