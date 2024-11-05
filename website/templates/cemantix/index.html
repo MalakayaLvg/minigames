@@ -10,17 +10,27 @@
     <button class="btn btn-primary" type="submit">envoyer</button>
     </form>
 
-    user word: {{ user_word }}
-
     <h2>similarity : {{ similarity }} %</h2>
 
     <p>{{ state }}</p>
 
     <ul>
-    {% for info in user_list %}
 
-            <li>{{ info.user_word }} : {{ info.similarity }} %</li>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Word</th>
+                <th scope="col">Similarity</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for info in user_list %}
+            <tr>
+                <th scope="col">{{ info.user_word }}</th>
+                <th scope="col">{{ info.similarity }} %</th>
+            </tr>
+        {% endfor %}
+        </tbody>
 
-    {% endfor %}
-    </ul>
+     </table>
 {% endblock %}

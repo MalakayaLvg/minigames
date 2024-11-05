@@ -1,0 +1,30 @@
+{% extends "website/index.html" %}
+
+{% block body %}
+
+    <h1 class="mb-4">Bienvenue sur la page des Mini-Jeux</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-control">
+                    <h2>Pendu</h2>
+                    <p>petit pendu avec django</p>
+                    <a href="{% url "pendu" %}" class="btn btn-primary">Jouer</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-control">
+                    <h2>Cemantix</h2>
+                    <p>Cemantix avec django</p>
+                    <a href="{% url "cemantix" %}" class="btn btn-primary">Jouer</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-control">
+                    <h2>Jeu 3</h2>
+                    <p>ça arrive la team</p>
+                    <a href="#" class="btn btn-primary">Jouer</a>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

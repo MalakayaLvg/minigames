@@ -8,12 +8,14 @@ from website.forms import PenduForm, CemantixForm
 # Create your views here.
 
 def index(request):
-    return render(request,"website/index.html")
+    return render(request,"website/home.html")
 
 def pendu_start(request):
 
     request.session['user_letters_guessed'] = 0
     request.session['user_letters_try'] = []
+    request.session['user_all_try'] = []
+
 
 
 def pendu(request):
@@ -22,6 +24,7 @@ def pendu(request):
     guess_word_letters = list(guess_word)
     user_letters_guessed = request.session.get("user_letters_guessed",0)
     user_letters_try = request.session.get("user_letters_try",[])
+    user_all_try = request.session.get("user_all_try",[])
 
     # print(user_letters_try)
 
@@ -39,7 +42,8 @@ def pendu(request):
 
             else:
                 # print("lettre valable")
-
+                user_all_try.append(user_letter)
+                request.session["user_all_try"] = user_all_try
                 ################ STATE
 
                 if user_letter in guess_word_letters:
@@ -67,7 +71,8 @@ def pendu(request):
 
             context = {"form": form, "userLetter": user_letter, "letter_state": letter_state,
                        "guess_word": guess_word, "guess_word_letters": guess_word_letters, "index": index,
-                       "user_letters_guessed": user_letters_guessed}
+                       "user_letters_guessed": user_letters_guessed,"user_letters_try":user_letters_try,"user_all_try":user_all_try,
+                       "guess_word_length":guess_word_length}
             return render(request, "pendu/index.html", context)
 
 

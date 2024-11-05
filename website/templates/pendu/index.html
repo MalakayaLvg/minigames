@@ -3,37 +3,47 @@
 {% block body %}
 
     <a class="btn btn-warning" href="{% url "pendu_reset" %}">reset</a>
-<h2>jeu du pendu</h2>
-{#    <h6>mot a deviner: {{ guess_word }}</h6>#}
-    lettres :
-    {% for letter in word_letters %}
-        {{ letter }},
-    {% endfor %}
 
-<form method="POST">
-<h3>Votre lettre</h3>
-{% csrf_token %}
-{{ form }}
-<button type="submit" class="btn btn-primary">envoyer</button>
-</form>
+    <hr>
 
-    <div>
-        {% if userLetter %}
-            <h3>user letter : {{ userLetter }}</h3>
-            lettre deviné : {{ user_letters_guessed }}
-        {% endif %}
+    <div class="text-center">
+        <h1>Jeu du Pendu</h1>
+        <div class="hangman-word mb-4">
 
-{#        {% for letter_index in index %}#}
-{#                {{ letter_index }}#}
-{#        <{% endfor %}#}
+            {% for letter in guess_word %}
+               <span>_ </span>
+            {% endfor %}
 
+        </div>
+
+        <div class="mb-3">
+            <p>Lettres déjà essayées : <span class="text-muted">
+                {% for letter in user_all_try %}
+                    {{ letter }},
+                {% endfor %}
+            </span></p>
+        </div>
+
+    <div class="mb-3">
+            <p class="text-success">Lettres deviné : <span class="">
+                {% for letter in user_letters_try %}
+                    {{ letter }},
+                {% endfor %}
+            </span></p>
+        </div>
+
+        <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn btn-primary">envoyer</button>
+        </form>
+        <div class="p-4">
         {% if letter_state %}
             <h3 class="text-success">la lettre est dans le mot</h3>
             index :
         {% else %}
             <h3 class="text-danger">la lettre n'est pas dans le mot</h3>
         {% endif %}
-
+        </div>
     </div>
-
 {% endblock %}
